@@ -38,12 +38,31 @@ jobs:
           cd ~/
           git clone https://chromium.googlesource.com/chromium/tools/depot_tools.git
           mkdir ~/bin
-          curl https://storage.googleapis.com/git-repo-downloads/repo > ~/bin/repo
-          chmod 777 ~/bin/repo
+          sudo curl https://storage.googleapis.com/git-repo-downloads/repo > /sbin/repo
+          chmod 777 /sbin/repo
           mkdir -p ${HOME}/chromiumomos
           sudo mkdir -p /usr/local/path/to/source/chromiumos
+          # sudo ln -s /usr/local/path/to/source/chromiumos ${HOME}/chromiumos
+          # cd ~/chromiumos
+          # repo -u https://chromium.googlesource.com/chromiumos/manifest.git --repo-url https://chromium.googlesource.com/external/repo.git
+          # repo sync
+          echo test, and deploy your project.
+      - name: Run a multi-line script aaa
+        run: |
           sudo ln -s /usr/local/path/to/source/chromiumos ${HOME}/chromiumos
           cd ~/chromiumos
-          ~/bin/repo -u https://chromium.googlesource.com/chromiumos/manifest.git --repo-url https://chromium.googlesource.com/external/repo.git
-          ~/bin/repo sync
-          echo test, and deploy your project.
+          repo init -u https://chromium.googlesource.com/chromiumos/manifest.git
+          repo sync
+          export BOARD=amd64-generic
+          cros_sdk -- ./build_packages --board=${BOARD}
+          cros_sdk -- ./build_image --board=${BOARD}
+      - name: Upload artifact # 上传构建产物，这里我们的源码目录是 src，而实际运行的代码是构建后的 bin 目录
+        uses: actions/upload-artifact@v2
+        with:
+          name: build_output
+          path: .
+      - name: Upload home # 上传构建产物，这里我们的源码目录是 src，而实际运行的代码是构建后的 bin 目录
+        uses: actions/upload-artifact@v2
+        with:
+          name: hoem
+          path: ~/
