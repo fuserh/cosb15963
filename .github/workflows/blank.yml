@@ -38,8 +38,8 @@ jobs:
           cd ~/
           git clone https://chromium.googlesource.com/chromium/tools/depot_tools.git
           mkdir ~/bin
-          sudo curl https://storage.googleapis.com/git-repo-downloads/repo > ~/bin/repo
-          sudo chmod 777 ~/bin/repo
+          curl https://storage.googleapis.com/git-repo-downloads/repo > ~/bin/repo
+          chmod 777 ~/bin/repo
           mkdir -p ${HOME}/chromiumomos
           sudo mkdir -p /usr/local/path/to/source/chromiumos
           # sudo ln -s /usr/local/path/to/source/chromiumos ${HOME}/chromiumos
@@ -51,8 +51,8 @@ jobs:
         run: |
           sudo ln -s /usr/local/path/to/source/chromiumos ${HOME}/chromiumos
           cd ~/chromiumos
-          ~/bin/repo init -u https://chromium.googlesource.com/chromiumos/manifest.git
-          ~/bin/repo sync
+          sudo ~/bin/repo init -u https://chromium.googlesource.com/chromiumos/manifest.git
+          sudo ~/bin/repo sync
           export BOARD=amd64-generic
           cros_sdk -- ./build_packages --board=${BOARD}
           cros_sdk -- ./build_image --board=${BOARD}
