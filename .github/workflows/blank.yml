@@ -35,15 +35,14 @@ jobs:
       # Runs a set of commands using the runners shell
       - name: Run a multi-line script
         run: |
-          cat ~/.bashrc
           cd ~/
           git clone https://chromium.googlesource.com/chromium/tools/depot_tools.git
           mkdir ~/bin
           curl https://storage.googleapis.com/git-repo-downloads/repo > ~/bin/repo
           chmod 777 ~/bin/repo
           mkdir -p ${HOME}/chromiumomos
-          mkdir -p /usr/local/path/to/source/chromiumos
-          ln -s /usr/local/path/to/source/chromiumos ${HOME}/chromiumos
+          sudo mkdir -p /usr/local/path/to/source/chromiumos
+          sudo ln -s /usr/local/path/to/source/chromiumos ${HOME}/chromiumos
           cd ~/chromiumos
           repo init -u https://chromium.googlesource.com/chromiumos/manifest.git --repo-url https://chromium.googlesource.com/external/repo.git
           repo sync
